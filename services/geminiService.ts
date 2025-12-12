@@ -1,25 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Product, ProductType } from "../types";
 
-// Initialize Gemini
-// NOTE: We safely check for process.env to prevent crashes in browser environments where 'process' is undefined.
-const getApiKey = () => {
-  try {
-    if (typeof process !== 'undefined' && process.env) {
-      return process.env.API_KEY || '';
-    }
-  } catch (e) {
-    // Environment does not support process.env, return empty string to allow app to load
-    return '';
-  }
-  return '';
-};
-
-const apiKey = getApiKey();
-const ai = new GoogleGenAI({ apiKey });
-
 export const generateProductConcept = async (userPrompt: string): Promise<Partial<Product> | null> => {
-  if (!apiKey) {
+  // Guidelines: The API key must be obtained exclusively from the environment variable process.env.API_KEY.
+  // We assume it is pre-configured and accessible.
+  // If missing, we fallback to simulation to avoid crashing the demo experience.
+  if (!process.env.API_KEY) {
     console.warn("Cortana System: API Key is missing or environment is restricted.");
     // Return high-fidelity simulation data if no key is present (prevents broken UX)
     await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing time
@@ -34,6 +20,8 @@ export const generateProductConcept = async (userPrompt: string): Promise<Partia
   }
 
   try {
+    // Guidelines: Use process.env.API_KEY string directly when initializing.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const model = 'gemini-2.5-flash';
     
     const response = await ai.models.generateContent({
@@ -69,9 +57,11 @@ export const generateProductConcept = async (userPrompt: string): Promise<Partia
 };
 
 export const analyzeSystemLogs = async (logs: string[]): Promise<string> => {
-    if (!apiKey) return "System Offline. Monitoring disabled.";
+    // Guidelines: Check process.env.API_KEY directly.
+    if (!process.env.API_KEY) return "System Offline. Monitoring disabled.";
     
     try {
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: `Analyze these system logs and provide a 1-sentence futuristic status report formatted like a command terminal output: ${logs.join('\n')}`
