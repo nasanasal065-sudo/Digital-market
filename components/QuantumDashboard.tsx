@@ -105,17 +105,17 @@ const QuantumDashboard: React.FC = () => {
       {/* Console Log Simulation */}
       <div className="bg-black border border-slate-800 p-4 rounded-xl font-mono text-xs text-green-500 h-48 overflow-y-auto custom-scrollbar">
         <div className="opacity-70">
-          <p>> INITIALIZING QUANTUM CORE...</p>
-          <p>> LOADING ORIGIN DNA DATABASE...</p>
-          <p>> CONNECTING TO CORTANA NEURAL LINK...</p>
-          <p>> SHOR'S ALGORITHM OPTIMIZED.</p>
-          <p>> GENERATING LOGO BUNDLE #44599 [400GB]...</p>
-          <p>> DETECTED NEW FINANCIAL MARKET PATTERN.</p>
-          <p>> SYSTEM OPTIMIZATION: 99.9%</p>
-          <p>> CHECKING API PROTOCOLS...</p>
-          <p>> MULTI-AGENT SYNC COMPLETE.</p>
+          <p>{'>'} INITIALIZING QUANTUM CORE...</p>
+          <p>{'>'} LOADING ORIGIN DNA DATABASE...</p>
+          <p>{'>'} CONNECTING TO CORTANA NEURAL LINK...</p>
+          <p>{'>'} SHOR'S ALGORITHM OPTIMIZED.</p>
+          <p>{'>'} GENERATING LOGO BUNDLE #44599 [400GB]...</p>
+          <p>{'>'} DETECTED NEW FINANCIAL MARKET PATTERN.</p>
+          <p>{'>'} SYSTEM OPTIMIZATION: 99.9%</p>
+          <p>{'>'} CHECKING API PROTOCOLS...</p>
+          <p>{'>'} MULTI-AGENT SYNC COMPLETE.</p>
         </div>
-        <div className="animate-pulse">> _</div>
+        <div className="animate-pulse">{'>'} _</div>
       </div>
     </div>
   );
