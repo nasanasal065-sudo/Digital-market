@@ -2,20 +2,34 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { Product, ProductType } from "../types";
 
 // Initialize Gemini
-// NOTE: In a real production app, ensure API keys are handled securely.
-const apiKey = process.env.API_KEY || ''; 
+// NOTE: We safely check for process.env to prevent crashes in browser environments where 'process' is undefined.
+const getApiKey = () => {
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.API_KEY || '';
+    }
+  } catch (e) {
+    // Environment does not support process.env, return empty string to allow app to load
+    return '';
+  }
+  return '';
+};
+
+const apiKey = getApiKey();
 const ai = new GoogleGenAI({ apiKey });
 
 export const generateProductConcept = async (userPrompt: string): Promise<Partial<Product> | null> => {
   if (!apiKey) {
-    console.error("API Key is missing");
-    // Return mock data if no key to prevent app crash in demo
+    console.warn("Cortana System: API Key is missing or environment is restricted.");
+    // Return high-fidelity simulation data if no key is present (prevents broken UX)
+    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate processing time
     return {
-      title: `Simulated: ${userPrompt} Bundle`,
-      description: "API Key missing. This is a simulation of the AI generated content.",
+      title: `Simulated: ${userPrompt.substring(0, 20)}...`,
+      description: "Neural Link Connection established. Running in simulation mode due to missing API credentials. The requested asset has been modeled predictively.",
       price: 99.99,
       type: ProductType.LOGO_BUNDLE,
-      tags: ["Simulation", "Demo"],
+      tags: ["Simulation", "Neural-Model", "Predictive"],
+      dnaSignature: `SIM-${Math.random().toString(36).substring(7).toUpperCase()}`,
     };
   }
 
